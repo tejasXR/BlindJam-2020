@@ -16,6 +16,7 @@ namespace APERION.BlindJam
 
         [SerializeField] HandOrientation handOrientation;
         [SerializeField] float distanceThreshold;
+        [SerializeField] float exitCheckRadius;
 
         private Vector3 exitPoint;
         private XRNode xrNode;
@@ -37,6 +38,11 @@ namespace APERION.BlindJam
 
         private void OnTriggerEnter(Collider other)
         {
+           
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
             if (other.gameObject.tag == "Path")
             {
                 exited = false;
@@ -47,11 +53,14 @@ namespace APERION.BlindJam
         {
             if (other.gameObject.tag == "Path")
             {
-                //ContactPoint contactPoint = other.GetContact(0);
-                exitPoint = transform.position;
-                exited = true;
-                StartCoroutine(HapticsPulseRepeater());
-
+                if (!InsidePathObject())
+                {
+                    //ContactPoint contactPoint = other.GetContact(0);
+                    exitPoint = transform.position;
+                    exited = true;
+                    StartCoroutine(HapticsPulseRepeater());
+                }
+              
             }
         }
 
@@ -113,9 +122,10 @@ namespace APERION.BlindJam
                 //PlayerHaptics.SendHaptics(xrNode, _amplitude, _duration);
                 var amplitudeDist = Mathf.Clamp01(1 - ((DistanceFromExitPoint() / distanceThreshold)) + .3F);
 
+                // Changing this so I preserve the haptic motors while developing
                 if (DistanceFromExitPoint() >= distanceThreshold)
                 {
-                    amplitudeDist = 1;
+                    amplitudeDist = 0;
                     //timeDist = 0;
                 }
 
@@ -127,6 +137,22 @@ namespace APERION.BlindJam
 
                 yield return new WaitForSeconds(timeDist);
             }
+        }
+
+        private bool InsidePathObject()
+        {
+            var colliders = Physics.OverlapSphere(transform.position, exitCheckRadius);
+
+            foreach (var c in colliders)
+            {
+                if (c.gameObject.CompareTag("Path"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            
         }
 
         //private IEnumerator HapticsPulseRepeater(float _amplitude, float _duration, float _frequency)
