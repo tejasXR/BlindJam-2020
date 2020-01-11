@@ -23,23 +23,87 @@ namespace APERION.BlindJam
         [SerializeField] float haptics2Amplitude;
 
         private XRNode xrNode;
+        private bool hapticsOn;
+        //private bool haptics2On;
 
         private void Start()
         {
             GetXRNode();
         }
 
-        private void OnTriggerStay(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Haptics 1"))
+            if (other.CompareTag("Haptics 1") && !hapticsOn)
             {
-                PlayerHaptics.SendHaptics(xrNode, haptics1Amplitude, .1F);
+                hapticsOn = true;
+                StartCoroutine(HapticsPulseRepeater(haptics1Amplitude, .01F, .4F));
             }
             else if (other.CompareTag("Haptics 2"))
             {
-                PlayerHaptics.SendHaptics(xrNode, haptics2Amplitude, .1F);
+                //hapticsOn = false;
+                //haptics2On = true;
+                StartCoroutine(HapticsPulseRepeater(haptics1Amplitude, .05F, .2F));
             }
         }
+
+        private void OnTriggerStay(Collider other)
+        {
+            //if (other.CompareTag("Haptics 1"))
+            //{
+            //    hapticsOn = true;
+            //    StartCoroutine(HapticsPulseRepeater(haptics1Amplitude, .01F, .5F));
+            //    //PlayerHaptics.SendHaptics(xrNode, haptics1Amplitude, .1F);
+            //}
+            //else if (other.CompareTag("Haptics 2"))
+            //{
+            //    //PlayerHaptics.SendHaptics(xrNode, haptics2Amplitude, .1F);
+            //}
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Haptics 1"))
+            {
+                hapticsOn = false;
+                StopHaptics();
+
+            }
+            if (other.CompareTag("Haptics 2"))
+            {
+                // Player dies
+            }
+        }
+
+        //private void EnableHaptics1()
+        //{
+
+        //}
+
+        //private void EnableHaptics2()
+        //{
+
+        //}
+
+        private void StopHaptics()
+        {
+            PlayerHaptics.StopHaptics(xrNode);
+        }
+
+        private IEnumerator HapticsPulseRepeater(float _amplitude, float _duration, float _frequency)
+        {
+            // Reset haptics
+            StopHaptics();
+
+            while (hapticsOn)// || haptics2On)
+            {
+                PlayerHaptics.SendHaptics(xrNode, _amplitude, _duration);
+
+                yield return new WaitForSeconds(_frequency);
+            }
+        }
+
+
+
 
         private void GetXRNode()
         {

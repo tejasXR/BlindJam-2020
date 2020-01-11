@@ -24,6 +24,13 @@ namespace APERION.VR
                 }
             }
         }
+
+        public static void StopHaptics(XRNode _node)
+        {
+            var device = PlayerInput.GetCurrentDevice(_node);
+
+            device.StopHaptics();
+        }
     }
 }
 
