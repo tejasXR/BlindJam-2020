@@ -18,6 +18,7 @@ namespace APERION.BlindJam
         [SerializeField] float distanceThreshold;
         [SerializeField] float exitCheckRadius;
 
+        private Player player;
         private Vector3 exitPoint;
         private XRNode xrNode;
         private bool exited;
@@ -26,19 +27,7 @@ namespace APERION.BlindJam
         private void Start()
         {
             AssignHand();
-        }
-
-        private void Update()
-        {
-            if (exited)
-            {
-                //DynamicPulse();
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-           
+            player = Player.Instance;
         }
 
         private void OnTriggerStay(Collider other)
@@ -53,35 +42,18 @@ namespace APERION.BlindJam
         {
             if (other.gameObject.tag == "Path")
             {
+                // Checks if we have truly exited any path
                 if (!InsidePathObject())
                 {
-                    //ContactPoint contactPoint = other.GetContact(0);
                     exitPoint = transform.position;
                     exited = true;
                     StartCoroutine(HapticsPulseRepeater());
                 }
               
             }
-        }
+        } 
 
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.gameObject.tag == "Path")
-        //    {
-        //        exited = false;
-        //    }
-        //}
-
-        //private void OnCollisionExit(Collision collision)
-        //{
-        //    if (collision.gameObject.tag == "Path")
-        //    {
-        //        ContactPoint contactPoint = collision.GetContact(0);
-        //        exitPoint = contactPoint.point;
-        //        exited = true;
-        //    }            
-        //}        
-
+        // Assigns a hand via Unity's XR System
         private void AssignHand()
         {
             switch (handOrientation)
@@ -114,24 +86,21 @@ namespace APERION.BlindJam
 
         private IEnumerator HapticsPulseRepeater()
         {
-            // Reset haptics
-            //StopHaptics();
-
-            while (exited)// || haptics2On)
+            // Only repeat coroutine if we've exited the path
+            while (exited)
             {
-                //PlayerHaptics.SendHaptics(xrNode, _amplitude, _duration);
+                // Get the amplitude based on how far we are from crossing the distance threshold
                 var amplitudeDist = Mathf.Clamp01(1 - ((DistanceFromExitPoint() / distanceThreshold)) + .3F);
 
                 // Changing this so I preserve the haptic motors while developing
                 if (DistanceFromExitPoint() >= distanceThreshold)
                 {
                     amplitudeDist = 0;
-                    //timeDist = 0;
+
+                    player.PlayerDies();
                 }
 
                 PlayerHaptics.SendHaptics(xrNode, amplitudeDist, .1F);
-
-                //yield return new WaitForSeconds(_frequency);
 
                 var timeDist = Mathf.Clamp01(1 - ((DistanceFromExitPoint() / distanceThreshold) +.5F));
 
@@ -151,24 +120,8 @@ namespace APERION.BlindJam
                 }
             }
 
-            return false;
-            
+            return false;            
         }
-
-        //private IEnumerator HapticsPulseRepeater(float _amplitude, float _duration, float _frequency)
-        //{
-        //    // Reset haptics
-        //    //StopHaptics();
-
-        //    while (exited)// || haptics2On)
-        //    {
-        //        //PlayerHaptics.SendHaptics(xrNode, _amplitude, _duration);
-        //        PlayerHaptics.SendHaptics(xrNode, DistanceFromExitPoint() / distanceThreshold, .1F);
-
-        //        //yield return new WaitForSeconds(_frequency);
-        //        yield return new WaitForSeconds(1- (DistanceFromExitPoint() / distanceThreshold));
-        //    }
-        //}
     }
 }
 

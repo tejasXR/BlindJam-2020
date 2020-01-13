@@ -16,16 +16,23 @@ namespace APERION.BlindJam
         private void OnEnable()
         {
             StartPoint.StartedCallback += EnableGeometry;
+            EndPoint.EndedCallback += DisableLevel;
         }
 
         private void OnDisable()
         {
             StartPoint.StartedCallback -= EnableGeometry;
+            EndPoint.EndedCallback -= DisableLevel;
         }
 
         private void EnableGeometry()
         {
             levelGeometry.SetActive(true);
+        }
+
+        private void DisableLevel()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

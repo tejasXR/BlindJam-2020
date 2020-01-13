@@ -51,6 +51,8 @@ namespace APERION.BlindJam
             // Play random footstep clip
             var randomClip = footstepClips[Utility.GetRandomInt(0, footstepClips.Length)];
             footStepAudioSource.PlayOneShot(randomClip);
+
+            Debug.Log("Taking footstep");
         }
     }
 }
