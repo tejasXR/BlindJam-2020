@@ -11,6 +11,8 @@ namespace APERION.BlindJam
 
         [SerializeField] AudioSource playerDeathAudio;
 
+        private bool playerAlive;
+
         private void Awake()
         {
             if(Instance == null)
@@ -21,18 +23,26 @@ namespace APERION.BlindJam
             {
                 Destroy(gameObject);
             }
-
         }
 
-        public static void GetPlayerAlive()
+        private void Start()
         {
+            playerAlive = true;
+        }
 
+        public bool GetPlayerAlive()
+        {
+            return playerAlive;
         }
 
        public void PlayerDies()
        {
-            StartCoroutine(PlayerDeathSequence());
-       }
+            if (playerAlive)
+            {
+                playerAlive = false;
+                StartCoroutine(PlayerDeathSequence());                
+            }
+        }
 
         private IEnumerator PlayerDeathSequence()
         {

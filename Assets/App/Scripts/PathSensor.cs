@@ -51,7 +51,16 @@ namespace APERION.BlindJam
                 }
               
             }
-        } 
+        }
+
+        private void Update()
+        {
+            // If the player corss the distance threshold, they die
+            if (exited && DistanceFromExitPoint() >= distanceThreshold && player.GetPlayerAlive())
+            {
+                player.PlayerDies();
+            }
+        }
 
         // Assigns a hand via Unity's XR System
         private void AssignHand()
@@ -95,9 +104,7 @@ namespace APERION.BlindJam
                 // Changing this so I preserve the haptic motors while developing
                 if (DistanceFromExitPoint() >= distanceThreshold)
                 {
-                    amplitudeDist = 0;
-
-                    player.PlayerDies();
+                    amplitudeDist = 0;                   
                 }
 
                 PlayerHaptics.SendHaptics(xrNode, amplitudeDist, .1F);

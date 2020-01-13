@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace APERION.BlindJam
 {
@@ -16,13 +17,13 @@ namespace APERION.BlindJam
         private void OnEnable()
         {
             StartPoint.StartedCallback += EnableGeometry;
-            EndPoint.EndedCallback += DisableLevel;
+            EndPoint.EndedCallback += RestartLevel;
         }
 
         private void OnDisable()
         {
             StartPoint.StartedCallback -= EnableGeometry;
-            EndPoint.EndedCallback -= DisableLevel;
+            EndPoint.EndedCallback -= RestartLevel;
         }
 
         private void EnableGeometry()
@@ -33,6 +34,11 @@ namespace APERION.BlindJam
         private void DisableLevel()
         {
             gameObject.SetActive(false);
+        }
+
+        private void RestartLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

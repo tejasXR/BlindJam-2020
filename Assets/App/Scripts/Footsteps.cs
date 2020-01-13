@@ -13,6 +13,12 @@ namespace APERION.BlindJam
 
         private Vector3 origin;
         private bool footstepsOn;
+        private Player player;
+
+        private void Start()
+        {
+            player = Player.Instance;
+        }
 
         private void OnEnable()
         {
@@ -27,7 +33,7 @@ namespace APERION.BlindJam
         void Update()
         {
             // If footsteps are enabled
-            if (footstepsOn)
+            if (footstepsOn && player.GetPlayerAlive())
             {
                 // If we cross a distance threshold
                 if (Vector3.Distance(origin, transform.position) > footstepDistanceThreshold)
@@ -45,6 +51,8 @@ namespace APERION.BlindJam
 
         private void TakeStep()
         {
+            
+
             // Re-orient origin
             origin = transform.position;
 

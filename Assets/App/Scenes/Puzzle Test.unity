@@ -713,7 +713,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -927,6 +927,7 @@ GameObject:
   - component: {fileID: 803523399}
   - component: {fileID: 803523403}
   - component: {fileID: 803523402}
+  - component: {fileID: 803523404}
   m_Layer: 0
   m_Name: End
   m_TagString: Untagged
@@ -1127,6 +1128,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &803523404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803523397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2818fe9213304448180131ab61c0b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &910078747 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2278827358117767376, guid: 2e2589cdad0ee4d4791bcc1bd14e4b8e,
@@ -1143,7 +1156,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1101240897}
   - component: {fileID: 1101240898}
-  - component: {fileID: 1101240899}
   m_Layer: 8
   m_Name: Footstep Audio
   m_TagString: Hand
@@ -1159,7 +1171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101240896}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0239, z: 0}
+  m_LocalPosition: {x: 0, y: -0.0351, z: 0}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_Children: []
   m_Father: {fileID: 538455609}
@@ -1186,7 +1198,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 0.06
+  MaxDistance: 0.08
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1261,29 +1273,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!164 &1101240899
-AudioReverbFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101240896}
-  m_Enabled: 1
-  m_DryLevel: 0
-  m_Room: 0
-  m_RoomHF: 0
-  m_DecayTime: 1
-  m_DecayHFRatio: 0.5
-  m_ReflectionsLevel: -10000
-  m_ReverbLevel: 0
-  m_ReverbDelay: 0.04
-  m_Diffusion: 100
-  m_Density: 100
-  m_HFReference: 5000
-  m_RoomLF: 0
-  m_LFReference: 250
-  m_ReflectionsDelay: 0
-  m_ReverbPreset: 27
 --- !u!1 &1179311298 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8271984923864537817, guid: 9b3fd7a1a1d3e584d84584fd3640bd09,
@@ -2318,6 +2307,19 @@ MonoBehaviour:
   footstepClips:
   - {fileID: 8300000, guid: e5c95af2dd479a74590458e3873ab3ab, type: 3}
   - {fileID: 8300000, guid: a879f2b31690ba94089ef9b68ebe313f, type: 3}
+--- !u!114 &1942500039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942500037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d69646bf326b83499321a684eddb4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDeathAudio: {fileID: 735376879}
 --- !u!114 &1942500042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2346,7 +2348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handOrientation: 1
-  distanceThreshold: 0.25
+  distanceThreshold: 0.125
   exitCheckRadius: 0
 --- !u!81 &1942500044
 AudioListener:
