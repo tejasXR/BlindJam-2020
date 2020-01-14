@@ -9,10 +9,19 @@ namespace APERION.VR
     {
         public static PlayerManager Instance;
 
+        public enum SpawnType
+        {
+            Floor,
+            EyeLevel
+        }
+
         public GameObject leftHand;
         public GameObject rightHand;
         public GameObject playerHead;
         public GameObject playerBody;
+
+        [Space(7)]
+        [SerializeField] SpawnType spawnType;
 
         private void Awake()
         {
@@ -32,6 +41,7 @@ namespace APERION.VR
         private void Update()
         {
             SetPlayerBodyPosition();
+            SetSpawnPosition();
         }
 
         public void SetPlayerPosition(Transform _positionTransform)
@@ -65,6 +75,16 @@ namespace APERION.VR
             if (playerBody != null)
             {
                 playerBody.transform.position = Vector3.Lerp(playerBody.transform.position, new Vector3(playerHead.transform.position.x, playerHead.transform.position.y - 0.65F, playerHead.transform.position.z), Time.deltaTime * 6F);
+            }
+        }
+
+        private void SetSpawnPosition()
+        {
+            switch (spawnType)
+            {
+                case SpawnType.Floor:
+                    transform.position = new Vector3(transform.position.x, 0F, transform.position.z);
+                    break;
             }
         }
     }

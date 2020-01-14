@@ -267,7 +267,7 @@ PrefabInstance:
     - target: {fileID: 8271984924683077541, guid: 9b3fd7a1a1d3e584d84584fd3640bd09,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.55
       objectReference: {fileID: 0}
     - target: {fileID: 8271984924683077541, guid: 9b3fd7a1a1d3e584d84584fd3640bd09,
         type: 3}
@@ -333,6 +333,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073862160722091309, guid: 9b3fd7a1a1d3e584d84584fd3640bd09,
+        type: 3}
+      propertyPath: spawnType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b3fd7a1a1d3e584d84584fd3640bd09, type: 3}
@@ -1022,12 +1027,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: 0.16921102, y: 1.45038, z: 0.06091597}
-  OuterPointDistance: 1.4614873
+  OuterPoint: {x: 0.1295686, y: 1.5129803, z: 0.0466447}
+  OuterPointDistance: 0.14259805
   IsHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: 0.16921102, y: 1.45038, z: 0.06091597}
-  InnerPointDistance: 1.4614873
+  InnerPoint: {x: 0.1295686, y: 1.5129803, z: 0.0466447}
+  InnerPointDistance: 0.14259805
   InnerPointInside: 0
   SphereCollider: {fileID: 803523399}
   Center: {x: 0, y: 0, z: 0}
@@ -2091,12 +2096,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OuterPointSet: 1
-  OuterPoint: {x: -0.4319269, y: 1.452669, z: -0.24114306}
-  OuterPointDistance: 1.5345873
+  OuterPoint: {x: -0.40255067, y: 1.504871, z: -0.22474241}
+  OuterPointDistance: 0.46324164
   IsHollow: 0
   InnerPointSet: 1
-  InnerPoint: {x: -0.4319269, y: 1.452669, z: -0.24114306}
-  InnerPointDistance: 1.5345873
+  InnerPoint: {x: -0.40255067, y: 1.504871, z: -0.22474241}
+  InnerPointDistance: 0.46324164
   InnerPointInside: 0
   SphereCollider: {fileID: 1917733461}
   Center: {x: 0, y: 0, z: 0}
@@ -2385,9 +2390,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: decc8c6d675ef174cbcda749b85eefa6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2f589fb0766346348a1dc9963dc4c83c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
