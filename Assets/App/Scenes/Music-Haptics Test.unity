@@ -154,6 +154,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: 0231f1b28bf8f5b40a725caff1c7279e, type: 3}
   audioVisualizerPrefab: {fileID: 2099182972273101395, guid: 96d18ae3d0337b4468a5455f62a4bf50,
     type: 3}
+  amplitude: 0.201
 --- !u!4 &200986039
 Transform:
   m_ObjectHideFlags: 0

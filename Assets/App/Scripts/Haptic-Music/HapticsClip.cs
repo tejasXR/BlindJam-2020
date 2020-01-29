@@ -38,10 +38,6 @@ public class HapticsClip : MonoBehaviour
 
     private void Update()
     {
-        //float[] spectrum = new float[256];
-
-        //AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
-
         if (audioSource.isPlaying)
         {
             audioClip.GetData(samples, audioSource.timeSamples);
@@ -54,22 +50,23 @@ public class HapticsClip : MonoBehaviour
             }
             
             // Debugging to see if samples array changes over time
-            Debug.Log(samples[128]);
+            //Debug.Log(samples[128]);
 
+
+            AudioHaptics();
         }
-
-
-        //for (int i = 1; i < spectrum.Length - 1; i++)
-        //{
-        //    Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
-        //    Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
-        //    Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
-        //    Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.blue);
-        //}
     }
 
     private void AudioHaptics()
     {
-        OVRInput.SetControllerVibration(1, 1, OVRInput.Controller.All);
+        float sum = 0;
+        for (int i = 0; i < samples.Length; i++)
+        {
+            sum += samples[i];
+        }
+
+        float average = sum / samples.Length;
+
+        OVRInput.SetControllerVibration(average, amplitude, OVRInput.Controller.All);
     }
 }
