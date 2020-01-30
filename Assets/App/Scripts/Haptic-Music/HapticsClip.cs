@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
+//[RequireComponent(typeof(AudioSource))]
 public class HapticsClip : MonoBehaviour
 {
-    [SerializeField] AudioClip audioClip;
+    //[SerializeField] AudioClip audioClip;
     [SerializeField] GameObject audioVisualizerPrefab;
 
     [Space(7)]
@@ -14,28 +14,28 @@ public class HapticsClip : MonoBehaviour
 
     private List<GameObject> audioVisualzers = new List<GameObject>();
     private List<GameObject> audioVisualzersAverage = new List<GameObject>();
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
     private float[] samples = new float[256];
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
     {
         CreateAudioVisualizer();
         CreateAudioVisualizerAverage();
-
-
-        //OVRInput.SetControllerVibration(1, 1, OVRInput.Controller.LTouch);
-
     }
 
     private void Update()
     {
-        if (audioSource.isPlaying)
+        //if (audioSource.isPlaying)
         {
+            //audioClip.GetData(samples, audioSource.timeSamples);
+
+            AudioListener.GetOutputData(samples, 0);
+
             AdjustAudioVisualerScale();
             AdjustAudioVisualizerAverageScale();
             AudioHaptics();
@@ -47,7 +47,7 @@ public class HapticsClip : MonoBehaviour
         if ((GetSampleAverage() * 10F) > hapticPulseThreshold)
         {
             Debug.Log(GetSampleAverage() * 10F);
-            OVRInput.SetControllerVibration(GetSampleAverage() * 10F, amplitude, OVRInput.Controller.LTouch);
+            OVRInput.SetControllerVibration(.01F, GetSampleAverage() * 10F * amplitude, OVRInput.Controller.RTouch);
         }        
     }
 
@@ -98,8 +98,6 @@ public class HapticsClip : MonoBehaviour
 
     private void AdjustAudioVisualerScale()
     {
-        audioClip.GetData(samples, audioSource.timeSamples);
-
         for (int i = 0; i < audioVisualzers.Count; i++)
         {
             var dest = new Vector3(audioVisualzers[i].transform.position.x, samples[i] * amplitude * 10F, 0);
