@@ -10,44 +10,42 @@ public class HapticsClip : MonoBehaviour
 
     [Space(7)]
     [Range(0, 1)] [SerializeField] float amplitude;
-    [Range(0, 1)] [SerializeField] float hapticPulseThreshold; 
+    [Range(0, 1)] [SerializeField] float hapticPulseThreshold;
+    [SerializeField] Transform hapticsVisualizerTransform;
 
     private List<GameObject> audioVisualzers = new List<GameObject>();
     private List<GameObject> audioVisualzersAverage = new List<GameObject>();
-    //private AudioSource audioSource;
+    private GameObject hapticsVisualizer;
+
     private float[] samples = new float[256];
 
     private void Awake()
     {
-        //audioSource = GetComponent<AudioSource>();
+        
     }
 
     private void Start()
     {
         CreateAudioVisualizer();
         CreateAudioVisualizerAverage();
+        CreateHapticsVisualizer();
     }
 
     private void Update()
     {
-        //if (audioSource.isPlaying)
-        {
-            //audioClip.GetData(samples, audioSource.timeSamples);
+        AudioListener.GetOutputData(samples, 0);
 
-            AudioListener.GetOutputData(samples, 0);
-
-            AdjustAudioVisualerScale();
-            AdjustAudioVisualizerAverageScale();
-            AudioHaptics();
-        }
+        AdjustAudioVisualerScale();
+        AdjustAudioVisualizerAverageScale();
+        AudioHaptics();
     }
 
     private void AudioHaptics()
     {     
         if ((GetSampleAverage() * 10F) > hapticPulseThreshold)
         {
-            Debug.Log(GetSampleAverage() * 10F);
             OVRInput.SetControllerVibration(.01F, GetSampleAverage() * 10F * amplitude, OVRInput.Controller.RTouch);
+            AdjustHapticsVisualizerScale();
         }        
     }
 
@@ -96,6 +94,12 @@ public class HapticsClip : MonoBehaviour
         }
     }
 
+    private void CreateHapticsVisualizer()
+    {
+        hapticsVisualizer = Instantiate(audioVisualizerPrefab, hapticsVisualizerTransform.position, Quaternion.identity) as GameObject;
+        hapticsVisualizer.transform.parent = transform;
+    }
+
     private void AdjustAudioVisualerScale()
     {
         for (int i = 0; i < audioVisualzers.Count; i++)
@@ -114,5 +118,12 @@ public class HapticsClip : MonoBehaviour
 
             audioVisualzersAverage[i].transform.localScale = scale;
         }
+    }
+
+    private void AdjustHapticsVisualizerScale()
+    {
+        var scale = new Vector3(hapticsVisualizer.transform.localScale.x, GetSampleAverage() * 10F * amplitude, hapticsVisualizer.transform.localScale.z);
+
+        hapticsVisualizer.transform.localScale = scale;
     }
 }
