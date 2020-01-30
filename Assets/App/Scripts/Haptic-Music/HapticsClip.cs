@@ -8,10 +8,12 @@ public class HapticsClip : MonoBehaviour
     [SerializeField] AudioClip audioClip;
     [SerializeField] GameObject audioVisualizerPrefab;
 
-    [Range(0, 1)]
-    [SerializeField] float amplitude; 
+    [Space(7)]
+    [Range(0, 1)] [SerializeField] float amplitude;
+    [Range(0, 1)] [SerializeField] float hapticPulseThreshold; 
 
     private List<GameObject> audioVisualzers = new List<GameObject>();
+    private List<GameObject> audioVisualzersAverage = new List<GameObject>();
     private AudioSource audioSource;
     private float[] samples = new float[256];
 
@@ -22,42 +24,34 @@ public class HapticsClip : MonoBehaviour
 
     private void Start()
     {
-        float positionX = 0;
-        float prefabSize = audioVisualizerPrefab.transform.localScale.x;
+        CreateAudioVisualizer();
+        CreateAudioVisualizerAverage();
 
-        for (int i = 0; i < samples.Length; i++)
-        {
-            var gO = Instantiate(audioVisualizerPrefab, new Vector3(positionX, 0, 0), Quaternion.identity) as GameObject;
-            gO.transform.parent = transform;
-            audioVisualzers.Add(gO);
-            
-            positionX += prefabSize;
 
-        }
+        //OVRInput.SetControllerVibration(1, 1, OVRInput.Controller.LTouch);
+
     }
 
     private void Update()
     {
         if (audioSource.isPlaying)
         {
-            audioClip.GetData(samples, audioSource.timeSamples);
-
-            for (int i = 0; i < audioVisualzers.Count; i++)
-            {
-                var dest = new Vector3(audioVisualzers[i].transform.position.x, samples[i] * amplitude * 10F, 0);
-
-                audioVisualzers[i].transform.position = dest;
-            }
-            
-            // Debugging to see if samples array changes over time
-            //Debug.Log(samples[128]);
-
-
+            AdjustAudioVisualerScale();
+            AdjustAudioVisualizerAverageScale();
             AudioHaptics();
         }
     }
 
     private void AudioHaptics()
+    {     
+        if ((GetSampleAverage() * 10F) > hapticPulseThreshold)
+        {
+            Debug.Log(GetSampleAverage() * 10F);
+            OVRInput.SetControllerVibration(GetSampleAverage() * 10F, amplitude, OVRInput.Controller.LTouch);
+        }        
+    }
+
+    private float GetSampleAverage()
     {
         float sum = 0;
         for (int i = 0; i < samples.Length; i++)
@@ -67,6 +61,60 @@ public class HapticsClip : MonoBehaviour
 
         float average = sum / samples.Length;
 
-        OVRInput.SetControllerVibration(average, amplitude, OVRInput.Controller.All);
+        return average;
+    }
+
+    private void CreateAudioVisualizer()
+    {
+        float positionX = 0;
+        float prefabSize = audioVisualizerPrefab.transform.localScale.x;
+
+        // Create audio visualization
+        for (int i = 0; i < samples.Length; i++)
+        {
+            var gO = Instantiate(audioVisualizerPrefab, new Vector3(positionX, 0, 0), Quaternion.identity) as GameObject;
+            gO.transform.parent = transform;
+            audioVisualzers.Add(gO);
+
+            positionX += prefabSize;
+        }
+    }
+
+    private void CreateAudioVisualizerAverage()
+    {
+        float positionX = 0;
+        float prefabSize = audioVisualizerPrefab.transform.localScale.x;
+
+        // Create audio visualization
+        for (int i = 0; i < samples.Length; i++)
+        {
+            var gO = Instantiate(audioVisualizerPrefab, new Vector3(positionX, 0, 3), Quaternion.identity) as GameObject;
+            gO.transform.parent = transform;
+            audioVisualzersAverage.Add(gO);
+
+            positionX += prefabSize;
+        }
+    }
+
+    private void AdjustAudioVisualerScale()
+    {
+        audioClip.GetData(samples, audioSource.timeSamples);
+
+        for (int i = 0; i < audioVisualzers.Count; i++)
+        {
+            var dest = new Vector3(audioVisualzers[i].transform.position.x, samples[i] * amplitude * 10F, 0);
+
+            audioVisualzers[i].transform.position = dest;
+        }
+    }
+
+    private void AdjustAudioVisualizerAverageScale()
+    {
+        for (int i = 0; i < audioVisualzersAverage.Count; i++)
+        {
+            var scale = new Vector3(audioVisualzersAverage[i].transform.localScale.x, GetSampleAverage() * amplitude * 10F, audioVisualzersAverage[i].transform.localScale.z);
+
+            audioVisualzersAverage[i].transform.localScale = scale;
+        }
     }
 }
