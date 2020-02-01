@@ -9,6 +9,11 @@ public class HapticsClip : MonoBehaviour
     [SerializeField] GameObject audioVisualizerPrefab;
 
     [Space(7)]
+    [SerializeField] bool createAudioVisualizer;
+    [SerializeField] bool createAudioVisualizerAverage;
+    [SerializeField] bool createHapticsVisualizer;
+
+    [Space(7)]
     [Range(0, 1)] [SerializeField] float amplitude;
     [Range(0, 1)] [SerializeField] float hapticPulseThreshold;
     [SerializeField] Transform hapticsVisualizerTransform;
@@ -26,9 +31,14 @@ public class HapticsClip : MonoBehaviour
 
     private void Start()
     {
-        CreateAudioVisualizer();
-        CreateAudioVisualizerAverage();
-        CreateHapticsVisualizer();
+        if (createAudioVisualizer)
+            CreateAudioVisualizer();
+
+        if (createAudioVisualizerAverage)
+            CreateAudioVisualizerAverage();
+
+        if (createHapticsVisualizer)
+            CreateHapticsVisualizer();
     }
 
     private void Update()
