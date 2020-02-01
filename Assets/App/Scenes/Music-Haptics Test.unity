@@ -164,7 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd445e464a689ed449daf8b1b1bc1f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderingScale: 1.4
+  renderingScale: 1
+  fixedFoveatedRendering: 3
+  displayRefreshRate: 0
 --- !u!1 &171180037
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +233,7 @@ MonoBehaviour:
   audioVisualMaterial: {fileID: 2100000, guid: 38f3ecc7965318246b874fd0b31e6d52, type: 2}
   createAudioVisualizer: 1
   createAudioVisualizerAverage: 1
-  createHapticsVisualizer: 1
+  createHapticsVisualizer: 0
   amplitude: 0.8
   hapticPulseThreshold: 0.225
   hapticsVisualizerTransform: {fileID: 1789384008}
@@ -1386,7 +1388,7 @@ MonoBehaviour:
   _monoscopic: 0
   enableAdaptiveResolution: 0
   minRenderScale: 0.7
-  maxRenderScale: 1
+  maxRenderScale: 1.1
   _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
   _headPoseRelativeOffsetTranslation: {x: 0, y: 0, z: 0}
   profilerTcpPort: 32419

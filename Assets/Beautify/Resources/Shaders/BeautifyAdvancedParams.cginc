@@ -21,7 +21,7 @@
 #define BEAUTIFY_DITHER_FINAL
 
 // Comment out this line to simplify eye adaptation to brightness increase/reduction (old method)
-#define BEAUTIFY_EYE_ADAPTATION_DYNAMIC_RANGE
+//#define BEAUTIFY_EYE_ADAPTATION_DYNAMIC_RANGE
 
 // Uncomment this to enable occlusion on objects that do not have colliders
 //#define BEAUTIFY_SUN_FLARES_OCCLUSION_DEPTH

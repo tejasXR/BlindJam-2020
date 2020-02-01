@@ -9,22 +9,22 @@ namespace APERION.VR
 
     public class VRRenderingManager : MonoBehaviour
     {
-        public float renderingScale;
+        //public float renderingScale;
 
-        private void Start()
-        {           
-            SetRenderScale();
-        }
+        //private void Start()
+        //{           
+        //    SetRenderScale();
+        //}
 
 
-        private void SetRenderScale()
-        {
-            XRSettings.eyeTextureResolutionScale = renderingScale;
-        }
+        //private void SetRenderScale()
+        //{
+        //    XRSettings.eyeTextureResolutionScale = renderingScale;
+        //}
         
 
-        /*
-        public float renderingScale;
+        
+        [SerializeField] float renderingScale;
 
         public enum FFRSetting
         {
@@ -36,7 +36,7 @@ namespace APERION.VR
         }
 
         [Tooltip("Fixed Foveated Rendering Setting")]
-        public FFRSetting fixedFoveatedRendering;
+        [SerializeField] FFRSetting fixedFoveatedRendering;
 
         public enum DisplayRefreshRate
         {
@@ -44,7 +44,7 @@ namespace APERION.VR
             Smooth
         }
 
-        public DisplayRefreshRate displayRefreshRate;
+        [SerializeField] DisplayRefreshRate displayRefreshRate;
 
         private void Start()
         {
@@ -100,7 +100,7 @@ namespace APERION.VR
         {
             XRSettings.eyeTextureResolutionScale = renderingScale;
         }
-        */
+        
     }
 }
 
