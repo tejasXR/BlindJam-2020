@@ -7,6 +7,7 @@ public class HapticsClip : MonoBehaviour
 {
     //[SerializeField] AudioClip audioClip;
     [SerializeField] GameObject audioVisualizerPrefab;
+    [SerializeField] Material audioVisualMaterial;
 
     [Space(7)]
     [SerializeField] bool createAudioVisualizer;
@@ -56,7 +57,12 @@ public class HapticsClip : MonoBehaviour
         {
             OVRInput.SetControllerVibration(.01F, GetSampleAverage() * 10F * amplitude, OVRInput.Controller.RTouch);
             AdjustHapticsVisualizerScale();
-        }        
+        }
+        else
+        {
+            OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
+        }
+
     }
 
     private float GetSampleAverage()
@@ -82,6 +88,8 @@ public class HapticsClip : MonoBehaviour
         {
             var gO = Instantiate(audioVisualizerPrefab, new Vector3(positionX, 0, 0), Quaternion.identity) as GameObject;
             gO.transform.parent = transform;
+            gO.GetComponent<Renderer>().material = audioVisualMaterial;
+
             audioVisualzers.Add(gO);
 
             positionX += prefabSize;
@@ -98,6 +106,8 @@ public class HapticsClip : MonoBehaviour
         {
             var gO = Instantiate(audioVisualizerPrefab, new Vector3(positionX, 0, 3), Quaternion.identity) as GameObject;
             gO.transform.parent = transform;
+            gO.GetComponent<Renderer>().material = audioVisualMaterial;
+
             audioVisualzersAverage.Add(gO);
 
             positionX += prefabSize;
@@ -107,6 +117,8 @@ public class HapticsClip : MonoBehaviour
     private void CreateHapticsVisualizer()
     {
         hapticsVisualizer = Instantiate(audioVisualizerPrefab, hapticsVisualizerTransform.position, Quaternion.identity) as GameObject;
+        hapticsVisualizer.GetComponent<Renderer>().material = audioVisualMaterial;
+
         hapticsVisualizer.transform.parent = transform;
     }
 
